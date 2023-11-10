@@ -1,0 +1,82 @@
+<section id="input-mask-section">
+
+  <h1>Ng Input Mask</h1>
+
+  <form
+    [formGroup]="form"
+    class="input-container">
+    <mat-form-field appearance="standard">
+      <mat-label>Account</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="account"
+        placeholder="Enter Account"
+        [inputMaskD]="accMaskOptions"
+        >
+      <mat-icon
+        matSuffix
+        (click)="changeVisibility(accMaskOptions, 'acc')"
+        >
+        {{ accMaskOptions.show ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
+      <mat-hint>Masking digits 3 to 5 of the Account with the symbol '*'.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>Phone</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="phone"
+        placeholder="Enter Phone"
+        [inputMaskD]="phoneMaskOptions"
+        >
+      <mat-icon
+        matSuffix
+        (click)="changeVisibility(phoneMaskOptions, 'phone')"
+        >
+        {{ phoneMaskOptions.show ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
+      <mat-hint>Masking digits 5 to 8 of the Phone with the symbol '●'.
+      </mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        placeholder="Enter Full Name"
+        [inputMaskD]="nameMaskOptions"
+        >
+      <mat-icon
+        matSuffix
+        (click)="changeVisibility(nameMaskOptions, 'name')"
+        >
+        {{ nameMaskOptions.show ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
+      <mat-hint>Mask last character for two-letter names and use '*' for middle characters in longer names.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="email"
+        placeholder="Enter Email"
+        [inputMaskD]="emailMaskOptions"
+        >
+      <mat-icon
+        matSuffix
+        (click)="changeVisibility(emailMaskOptions, 'email')"
+        >
+        {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
+      <mat-hint>Mask all characters before '@' with the symbol '*'.</mat-hint>
+    </mat-form-field>
+  </form>
+
+</section>
