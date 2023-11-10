@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IInputMaskOptions } from 'src/app/model/input-mask-options.model';
 import { InputMaskUtilService } from './input-mask-util.service';
@@ -25,17 +25,16 @@ export class InputMaskComponent implements OnInit {
     return this.form.get('phone');
   }
 
-  get nameControl(): AbstractControl | null {
-    return this.form.get('name');
-  }
-
   get emailControl(): AbstractControl | null {
     return this.form.get('email');
   }
 
+  get nameControl(): AbstractControl | null {
+    return this.form.get('name');
+  }
+
   constructor(
     private fb: FormBuilder,
-    private renderer2: Renderer2,
     private inputMaskUtilService: InputMaskUtilService,
   ) {
     this.buildForm();
@@ -50,8 +49,8 @@ export class InputMaskComponent implements OnInit {
     this.form = this.fb.group({
       account: ['', [ Validators.required, Validators.maxLength(10) ]],
       phone: ['', [ Validators.required, Validators.maxLength(10) ]],
+      email: ['', [ Validators.required, Validators.maxLength(30), Validators.email ]],
       name: ['', [ Validators.required, Validators.maxLength(30) ]],
-      email: ['', [ Validators.required, Validators.maxLength(30) ]]
     });
   }
 
@@ -59,29 +58,23 @@ export class InputMaskComponent implements OnInit {
   private generatorMaskOptions(): void {
     this.accMaskOptions = this.inputMaskUtilService.generatorMaskOptions('acc');
     this.phoneMaskOptions = this.inputMaskUtilService.generatorMaskOptions('phone');
-    this.nameMaskOptions = this.inputMaskUtilService.generatorMaskOptions('name');
     this.emailMaskOptions = this.inputMaskUtilService.generatorMaskOptions('email');
+    this.nameMaskOptions = this.inputMaskUtilService.generatorMaskOptions('name');
   }
 
   private bindValueChange(): void {
+    this.emailControl?.valueChanges?.subscribe((value: string) => {
+      // @前的全部隱碼
+      const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
+      this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx};
+    });
+
     this.nameControl?.valueChanges?.subscribe((value: string) => {
       // name: 王*、王*明、王**明、A*、A*n、A**y
       const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
       this.nameMaskOptions.cut = lastIdx;
       this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx};
     });
-
-    this.emailControl?.valueChanges?.subscribe((value: string) => {
-      // @前的全部隱碼
-      const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
-      this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx};
-    });
-  }
-
-  private setValue(e: HTMLInputElement, control: AbstractControl, value: string): void {
-    this.renderer2.setProperty(e, 'value', value);
-    control.patchValue(value, { emitEvent: false });
-    console.log(e.value)
   }
 
   // 切換明隱碼狀態
@@ -94,11 +87,11 @@ export class InputMaskComponent implements OnInit {
       case 'phone':
         this.phoneMaskOptions = { ...maskOption };
         break;
-      case 'name':
-        this.nameMaskOptions = { ...maskOption };
-        break;
       case 'email':
         this.emailMaskOptions = { ...maskOption };
+        break;
+      case 'name':
+        this.nameMaskOptions = { ...maskOption };
         break;
       default:
         return;
