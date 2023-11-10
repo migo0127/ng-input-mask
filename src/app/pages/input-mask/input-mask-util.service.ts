@@ -16,6 +16,7 @@ export class InputMaskUtilService {
         return {
           show: false,
           sIndex: 3,
+          rexExp: /[^a-zA-Z0-9]+$/,
           cut: 3,
         }
       case 'phone':
@@ -23,19 +24,21 @@ export class InputMaskUtilService {
           show: false,
           sIndex: 4,
           cut: 4,
+          rexExp: /\D+$/,
           symbol: '●'
-        }
-      case 'name':
-        return {
-          show: false,
-          sIndex: 1,
-          cut: 0,
         }
       case 'email':
         return {
           show: false,
           sIndex: 0,
           cut: 3,
+        }
+      case 'name':
+        return {
+          show: false,
+          sIndex: 1,
+          // rexExp: /^[!@#\$%\^&\*\(\)_\+\-=\[\]{}|;:'",.<>\/?\s\d]+$/i,
+          cut: 0,
         }
       default:
         return {
