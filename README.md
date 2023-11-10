@@ -1,27 +1,27 @@
-# NgInputMask
+# 作品說明
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.13.
+使用 Angular 框架製作客制化 Input mask value：
 
-## Development server
+- Account Input：
+  - 將第 3 ~ 5 位字元進行隱碼，隱碼符號 '*'。
+  - Masking digits 3 to 5 of the Account with the symbol '*'.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Phone Input：
+  - 將第 5 ~ 8 位字元進行隱碼，隱碼符號 '●'。
+  - Masking digits 5 to 8 of the Phone with the symbol '●'.
 
-## Code scaffolding
+- Name Input：。
+  - 值為二字元時隱碼最後一字元，超過二字以上隱碼中間字元，隱碼符號 '*'。
+  - Mask last character for two-letter names and use '*' for middle characters in longer names.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Email Input：。
+  - @前所有字元隱碼，隱碼符號 '*'。
+  - Mask all characters before '@' with the symbol '*'.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# 系統說明
 
-## Running unit tests
+專案運行方式：ng serve 或 npm start
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+網站連結：https://migo0127.github.io/ng-input-mask/ng-input-mask
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
