@@ -18,7 +18,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
 
   ngOnChanges(): void {
     // console.log('ngOnChanges: ', this.maskOptions);
-    const replaceValue: IReplaceValueData | string = this.replaceText(this.erf.nativeElement);
+    const replaceValue: IReplaceValueData | string = this.replaceText(this.erf.nativeElement, 'change');
     if(this.erf.nativeElement && replaceValue){
       this.setValue(this.erf.nativeElement, replaceValue);
     }
@@ -50,16 +50,21 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
 
   @HostListener('input', ['$event'])
   onInput(e: Event){
-    const replaceValue: IReplaceValueData = this.replaceText(e);
+    const replaceValue: IReplaceValueData = this.replaceText(e, 'input');
     if(e && replaceValue){
       this.setValue(e, replaceValue);
     }
   }
 
-  private replaceText(e: Event | ElementRef<HTMLInputElement> | null): IReplaceValueData {
+  private replaceText(e: Event | ElementRef<HTMLInputElement> | null, active: string): IReplaceValueData {
     this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
     const inpElement: HTMLInputElement | null = this.getElement(e);
-    const displayValue: string = inpElement?.value ?? '';
+    let displayValue: string = '';
+    if(this.maskOptions?.rexExp && inpElement?.value && active === 'input'){
+      displayValue = inpElement?.value.replace(this.maskOptions.rexExp, '');
+    }else{
+      displayValue = inpElement?.value ?? '';
+    }
     let text: string[] = Array.from(displayValue);
 
     // 提取要被改成 symbol 的文字，暫存在 tempMask 裡
