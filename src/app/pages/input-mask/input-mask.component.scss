@@ -1,14 +1,22 @@
+$commonPadding: 2rem 1rem;
+
 #input-mask-section {
   width: 50vh;
   text-align: center;
-  padding: 2rem 1rem;
+  padding: $commonPadding;
   margin: 5vh auto;
   border: 1px solid;
   border-radius: 10px;
 
-  .input-container {
-    mat-form-field {
-      width: 90%;
+  .input-container mat-form-field,
+  .text-container{
+    width: 90%;
+  }
+
+  .text-container{
+    margin: 2rem auto;
+    p {
+      text-align: left;
     }
   }
 }

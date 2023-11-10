@@ -1,11 +1,15 @@
 <section id="input-mask-section">
 
-  <h1>Ng Input Mask</h1>
+  <h1>Custom Input Mask Value</h1>
 
   <form
+    *ngIf="form"
     [formGroup]="form"
     class="input-container">
-    <mat-form-field appearance="standard">
+    <mat-form-field
+      appearance="standard"
+      [color]="accControl?.invalid ? 'warn': ''"
+      >
       <mat-label>Account</mat-label>
       <input
         matInput
@@ -13,6 +17,7 @@
         formControlName="account"
         placeholder="Enter Account"
         [inputMaskD]="accMaskOptions"
+        required
         >
       <mat-icon
         matSuffix
@@ -20,10 +25,15 @@
         >
         {{ accMaskOptions.show ? 'visibility' : 'visibility_off' }}
       </mat-icon>
-      <mat-hint>Masking digits 3 to 5 of the Account with the symbol '*'.</mat-hint>
+      <mat-hint>
+        Masking digits 3 to 5 of the Account with the symbol '*'.
+      </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="standard">
+    <mat-form-field
+      appearance="standard"
+      [color]="phoneControl?.invalid ? 'warn': ''"
+      >
       <mat-label>Phone</mat-label>
       <input
         matInput
@@ -42,7 +52,31 @@
       </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="standard">
+    <mat-form-field
+      appearance="standard"
+      [color]="emailControl?.invalid ? 'warn': ''"
+      >
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="text"
+        formControlName="email"
+        placeholder="Enter Email"
+        [inputMaskD]="emailMaskOptions"
+        >
+      <mat-icon
+        matSuffix
+        (click)="changeVisibility(emailMaskOptions, 'email')"
+        >
+        {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
+      <mat-hint>Mask all characters before '@' with the symbol '*'.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="standard"
+      [color]="nameControl?.invalid ? 'warn': ''"
+      >
       <mat-label>Name</mat-label>
       <input
         matInput
@@ -60,23 +94,18 @@
       <mat-hint>Mask last character for two-letter names and use '*' for middle characters in longer names.</mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="standard">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        type="text"
-        formControlName="email"
-        placeholder="Enter Email"
-        [inputMaskD]="emailMaskOptions"
-        >
-      <mat-icon
-        matSuffix
-        (click)="changeVisibility(emailMaskOptions, 'email')"
-        >
-        {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
-      </mat-icon>
-      <mat-hint>Mask all characters before '@' with the symbol '*'.</mat-hint>
-    </mat-form-field>
   </form>
 
+  <div
+    class="text-container"
+    >
+    <h2>Form Value</h2>
+    <p>{{ 'Account: ' + accControl?.value }}</p>
+    <p>{{ 'Phone: ' + phoneControl?.value }}</p>
+    <p>{{ 'Name: ' + nameControl?.value }}</p>
+    <p>{{ 'Email: ' + emailControl?.value }}</p>
+  </div>
+
 </section>
+
+

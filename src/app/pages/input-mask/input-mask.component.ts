@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IInputMaskOptions } from 'src/app/model/input-mask-options.model';
 import { InputMaskUtilService } from './input-mask-util.service';
@@ -11,6 +11,7 @@ import { InputMaskUtilService } from './input-mask-util.service';
 export class InputMaskComponent implements OnInit {
 
   form: FormGroup;
+  showValue: boolean;
   accMaskOptions: IInputMaskOptions;
   phoneMaskOptions: IInputMaskOptions;
   nameMaskOptions: IInputMaskOptions;
@@ -47,10 +48,10 @@ export class InputMaskComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.fb.group({
-      account: ['', [ Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/ig) ]],
-      phone: ['', [ Validators.required ]],
-      name: ['', [ Validators.required ]],
-      email: ['', [ Validators.required ]]
+      account: ['', [ Validators.required, Validators.maxLength(10) ]],
+      phone: ['', [ Validators.required, Validators.maxLength(10) ]],
+      name: ['', [ Validators.required, Validators.maxLength(30) ]],
+      email: ['', [ Validators.required, Validators.maxLength(30) ]]
     });
   }
 
