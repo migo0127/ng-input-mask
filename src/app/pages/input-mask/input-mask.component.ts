@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IInputMaskOptions } from 'src/app/model/input-mask-options.model';
 import { InputMaskUtilService } from './input-mask-util.service';
@@ -10,12 +10,23 @@ import { InputMaskUtilService } from './input-mask-util.service';
 })
 export class InputMaskComponent implements OnInit {
 
+  @ViewChild('accInp') accInp: ElementRef<HTMLInputElement>;
+
+  configForm: FormGroup;
   form: FormGroup;
   showValue: boolean;
   accMaskOptions: IInputMaskOptions;
   phoneMaskOptions: IInputMaskOptions;
   nameMaskOptions: IInputMaskOptions;
   emailMaskOptions: IInputMaskOptions;
+
+  get accSIndxControl(): AbstractControl | null {
+    return this.configForm.get('accSIndex');
+  }
+
+  get accSymbolControl(): AbstractControl | null {
+    return this.configForm.get('accSymbol');
+  }
 
   get accControl(): AbstractControl | null {
     return this.form.get('account');
@@ -35,17 +46,24 @@ export class InputMaskComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private renderer2: Renderer2,
     private inputMaskUtilService: InputMaskUtilService,
   ) {
     this.buildForm();
+
   }
 
   ngOnInit(): void {
     this.generatorMaskOptions();
-    this.bindValueChange();
+    this.bindFormValueChange();
+    this.showValue = false;
   }
 
   private buildForm(): void {
+    this.configForm = this.fb.group({
+      accSIndex: ['', [ Validators.min(1), Validators.max(10)]],
+      accSymbol: ['', [ Validators.maxLength(1), Validators.pattern(/^[^\u4e00-\u9fa5\da-zA-z]*$/) ]],
+    })
     this.form = this.fb.group({
       account: ['', [ Validators.required, Validators.maxLength(10) ]],
       phone: ['', [ Validators.required, Validators.maxLength(10) ]],
@@ -62,19 +80,56 @@ export class InputMaskComponent implements OnInit {
     this.nameMaskOptions = this.inputMaskUtilService.generatorMaskOptions('name');
   }
 
-  private bindValueChange(): void {
-    this.emailControl?.valueChanges?.subscribe((value: string) => {
-      // @前的全部隱碼
-      const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
-      this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx};
+  private bindFormValueChange(): void {
+    this.form.valueChanges.subscribe(() => {
+      this.showValue = false;
     });
+  }
 
-    this.nameControl?.valueChanges?.subscribe((value: string) => {
-      // name: 王*、王*明、王**明、A*、A*n、A**y
-      const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
-      this.nameMaskOptions.cut = lastIdx;
-      this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx};
-    });
+  /**
+   * emailChange：用來隨時偵測 @ 的Index，在來修改 sIndex 的值
+   *
+   * ※ 不可使用 valueChanges 及 ngModuleChange，會導至 InputMaskDirective 的
+   * ngOnChanges 重覆偵測問題：
+   *
+   * 因為 InputMaskDirective 使用 ControlValueAccessor 的 this.onChange 來更新 Form
+   * 的值，會導致重新觸發 valueChanges，造成多次呼叫問題。
+   *
+   * input 事件是值不相同時才會觸發。
+   */
+  emailChange(value: string): void {
+    if(!value) return;
+    // @ 前的全部隱碼
+    const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
+    this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx};
+  }
+
+  /**
+   * nameChange ：用來隨時偵測姓名的長度，在來修改 sIndex 的值
+   *
+   * ※ 不可使用 valueChanges 及 ngModuleChange，會導至 InputMaskDirective 的
+   * ngOnChanges 重覆偵測問題：
+   *
+   * 因為 InputMaskDirective 使用 ControlValueAccessor 的 this.onChange 來更新 Form
+   * 的值，會導致重新觸發 valueChanges，造成多次呼叫問題。
+   *
+   * input 事件是值不相同時才會觸發。
+   */
+  nameChange(value: string): void {
+    if(!value) return;
+    // name: 王*、王*明、王**明、A*、A*n、A**y
+    const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
+    this.nameMaskOptions.cut = lastIdx;
+    this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx};
+  }
+
+  // 配置自定義帳號 sIndex 及 symbol 設定
+  accConfig(): void {
+    this.setAccElementValue();
+    this.showValue = false;
+    const setSIndex: number = typeof this.accSIndxControl?.value === 'number' ?  this.accSIndxControl?.value - 1 : this.accMaskOptions.sIndex;
+    const setSymbol: string = this.accSymbolControl?.value ? this.accSymbolControl?.value : (this.accMaskOptions?.symbol ?? '*');
+    this.accMaskOptions = {...this.accMaskOptions, sIndex: setSIndex, symbol: setSymbol };
   }
 
   // 切換明隱碼狀態
@@ -98,5 +153,14 @@ export class InputMaskComponent implements OnInit {
     }
   }
 
+  private setAccElementValue(): void {
+    // 將 HTMLInputElement 的 value 重新設定，該值主要於頁面上顯示用
+    this.renderer2.setProperty(this.accInp.nativeElement, 'value', this.accControl?.value);
+  }
 
+  showFormValue(): void {
+    if(this.form?.valid){
+      this.showValue = true;
+    }
+  }
 }

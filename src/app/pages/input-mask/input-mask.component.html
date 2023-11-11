@@ -1,115 +1,186 @@
 <section id="input-mask-section">
 
-  <h1>Custom Input Mask Value</h1>
+  <h1>{{ "Custom Input Mask Value" }}</h1>
 
-  <form
-    *ngIf="form"
-    [formGroup]="form"
-    class="input-container">
-    <mat-form-field
-      appearance="standard"
-      [color]="accControl?.invalid ? 'warn': ''"
-      >
-      <mat-label>Account</mat-label>
+  <div class="input-wrap">
+    <form
+      *ngIf="configForm"
+      [formGroup]="configForm"
+      class="input-config">
+      <h2>{{ "Account Custom Mask Config" }}</h2>
+      <mat-form-field
+        appearance="standard"
+        floatLabel="always"
+        >
+      <mat-label>
+        {{ "Enter start nth" }}
+      </mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="1"
+        [max]="10"
+        formControlName="accSIndex"
+        placeholder="Mask from position N onward."
+        >
+        <mat-hint>
+          {{ "Nth limited to 1 ~ 9." }}
+        </mat-hint>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="standard"
+        floatLabel="always"
+        >
+      <mat-label>
+        {{ "Enter a symbol" }}
+      </mat-label>
       <input
         matInput
         type="text"
-        [maxlength]="10"
-        formControlName="account"
-        placeholder="Enter Account"
-        [inputMaskD]="accMaskOptions"
-        required
+        [maxlength]="1"
+        formControlName="accSymbol"
+        placeholder="Masking symbol, such as '*'、 '●'."
         >
-      <mat-icon
-        matSuffix
-        (click)="changeVisibility(accMaskOptions, 'acc')"
-        >
-        {{ accMaskOptions.show ? 'visibility' : 'visibility_off' }}
-      </mat-icon>
-      <mat-hint>
-        Masking digits 3 to 5 of the Account with the symbol '*'.
-      </mat-hint>
-    </mat-form-field>
+        <mat-hint>
+          {{ "Symbols only, such as '*'、 '●'." }}
+        </mat-hint>
+      </mat-form-field>
 
-    <mat-form-field
-      appearance="standard"
-      [color]="phoneControl?.invalid ? 'warn': ''"
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="configForm.invalid"
+        (click)="accConfig()"
+        >
+        Configuration
+      </button>
+    </form>
+
+    <form
+      *ngIf="form"
+      [formGroup]="form"
+      class="input-container"
       >
-      <mat-label>Phone</mat-label>
-      <input
-        matInput
-        type="text"
-        [maxlength]="10"
-        formControlName="phone"
-        placeholder="Enter Phone"
-        [inputMaskD]="phoneMaskOptions"
+      <h2>{{ "User Input" }}</h2>
+      <mat-form-field
+        appearance="standard"
+        [color]="accControl?.invalid ? 'warn': ''"
         >
-      <mat-icon
-        matSuffix
-        (click)="changeVisibility(phoneMaskOptions, 'phone')"
-        >
-        {{ phoneMaskOptions.show ? 'visibility' : 'visibility_off' }}
-      </mat-icon>
-      <mat-hint>Masking digits 5 to 8 of the Phone with the symbol '●'.
-      </mat-hint>
-    </mat-form-field>
+        <mat-label>{{ "Account" }}</mat-label>
+        <input
+          matInput
+          type="text"
+          [maxlength]="10"
+          formControlName="account"
+          placeholder="Enter Account"
+          [inputMaskD]="accMaskOptions"
+          required
+          #accInp
+          >
+        <mat-icon
+          matSuffix
+          (click)="changeVisibility(accMaskOptions, 'acc')"
+          >
+          {{ accMaskOptions.show ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+        <mat-hint>
+          {{ "Masking digits 3 to 5 of the Account with the symbol '*'." }}
+        </mat-hint>
+      </mat-form-field>
 
-    <mat-form-field
-      appearance="standard"
-      [color]="emailControl?.invalid ? 'warn': ''"
-      >
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        type="text"
-        [maxlength]="30"
-        formControlName="email"
-        placeholder="Enter Email"
-        [inputMaskD]="emailMaskOptions"
+      <mat-form-field
+        appearance="standard"
+        [color]="phoneControl?.invalid ? 'warn': ''"
         >
-      <mat-icon
-        matSuffix
-        (click)="changeVisibility(emailMaskOptions, 'email')"
-        >
-        {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
-      </mat-icon>
-      <mat-hint>Mask all characters before '@' with the symbol '*'.</mat-hint>
-    </mat-form-field>
+        <mat-label>{{ "Phone" }}</mat-label>
+        <input
+          matInput
+          type="text"
+          [maxlength]="10"
+          formControlName="phone"
+          placeholder="Enter Phone"
+          [inputMaskD]="phoneMaskOptions"
+          >
+        <mat-icon
+          matSuffix
+          (click)="changeVisibility(phoneMaskOptions, 'phone')"
+          >
+          {{ phoneMaskOptions.show ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+        <mat-hint>
+          {{ "Masking digits 5 to 8 of the Phone with the symbol '●'." }}
+        </mat-hint>
+      </mat-form-field>
 
-    <mat-form-field
-      appearance="standard"
-      [color]="nameControl?.invalid ? 'warn': ''"
-      >
-      <mat-label>Name</mat-label>
-      <input
-        matInput
-        type="text"
-        [maxlength]="30"
-        formControlName="name"
-        placeholder="Enter Full Name"
-        [inputMaskD]="nameMaskOptions"
+      <mat-form-field
+        appearance="standard"
+        [color]="emailControl?.invalid ? 'warn': ''"
         >
-      <mat-icon
-        matSuffix
-        (click)="changeVisibility(nameMaskOptions, 'name')"
-        >
-        {{ nameMaskOptions.show ? 'visibility' : 'visibility_off' }}
-      </mat-icon>
-      <mat-hint>Mask last character for two-letter names and use '*' for middle characters in longer names.</mat-hint>
-    </mat-form-field>
+        <mat-label>{{ "Email" }}</mat-label>
+        <input
+          matInput
+          type="text"
+          [maxlength]="30"
+          formControlName="email"
+          placeholder="Enter Email"
+          [inputMaskD]="emailMaskOptions"
+          (input)="emailChange(emailControl?.value)"
+          >
+        <mat-icon
+          matSuffix
+          (click)="changeVisibility(emailMaskOptions, 'email')"
+          >
+          {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+        <mat-hint>{{ "Mask all characters before '@' with the symbol '*'."}}</mat-hint>
+      </mat-form-field>
 
-  </form>
+      <mat-form-field
+        appearance="standard"
+        [color]="nameControl?.invalid ? 'warn': ''"
+        >
+        <mat-label>{{ "Name" }}</mat-label>
+        <input
+          matInput
+          type="text"
+          [maxlength]="30"
+          formControlName="name"
+          placeholder="Enter Full Name"
+          [inputMaskD]="nameMaskOptions"
+          (input)="nameChange(nameControl?.value)"
+          >
+        <mat-icon
+          matSuffix
+          (click)="changeVisibility(nameMaskOptions, 'name')"
+          >
+          {{ nameMaskOptions.show ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+        <mat-hint>
+          {{ "Mask last character for two-letter names and use '*' for middle characters in longer names." }}
+        </mat-hint>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="showFormValue()"
+        >
+        Submit
+      </button>
+    </form>
+  </div>
 
   <div
     class="text-container"
+    *ngIf="showValue"
     >
-    <h2>Form Value</h2>
-    <p>{{ 'Account: ' + accControl?.value }}</p>
-    <p>{{ 'Phone: ' + phoneControl?.value }}</p>
-    <p>{{ 'Name: ' + nameControl?.value }}</p>
-    <p>{{ 'Email: ' + emailControl?.value }}</p>
+    <h2>{{ "Form Value" }}</h2>
+    <p>{{ form.value | json }}</p>
   </div>
 
 </section>
+
+
 
 

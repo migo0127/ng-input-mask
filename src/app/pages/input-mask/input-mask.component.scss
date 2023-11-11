@@ -1,22 +1,67 @@
-$commonPadding: 2rem 1rem;
+$commonPadding: 2rem 1.5rem;
+$commonMargin: 1.5rem;
+$commonBorder: 1px solid black;
 
 #input-mask-section {
-  width: 50vh;
+  width: 55vw;
+  height: max-content;
   text-align: center;
   padding: $commonPadding;
   margin: 5vh auto;
-  border: 1px solid;
-  border-radius: 10px;
 
-  .input-container mat-form-field,
-  .text-container{
-    width: 90%;
+  .input-wrap {
+    width: 100%;
+    height: 100%;
+    margin-top: $commonMargin;
+    display: flex;
+    justify-content: center;
   }
 
-  .text-container{
-    margin: 2rem auto;
-    p {
-      text-align: left;
+  .input-config , .input-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $commonPadding;
+    margin: $commonMargin;
+    border: $commonBorder;
+    border-radius: 10px;
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+
+  .input-config {
+    width: 30%;
+    min-width: max-content;
+  }
+
+  .input-container {
+    flex-grow: 1;
+  }
+
+  .input-config mat-form-field,
+  .input-container mat-form-field {
+    width: 100%;
+    height: max-content;
+    margin: .25rem 0;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  #input-mask-section {
+    width: 100vw;
+    padding: 0;
+  }
+  .input-wrap {
+    flex-direction: column;
+    align-items: center;
+
+    .input-container {
+      width: 70%;
     }
   }
 }
+
