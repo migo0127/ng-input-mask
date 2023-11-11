@@ -17,8 +17,8 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   tempMask: string[] = [];
 
   ngOnChanges(): void {
-    // console.log('ngOnChanges: ', this.maskOptions);
-    const replaceValue: IReplaceValueData | string = this.replaceText(this.erf.nativeElement, 'change');
+    // console.log('ngOnChanges');
+    const replaceValue: IReplaceValueData = this.replaceText(this.erf.nativeElement, 'change');
     if(this.erf.nativeElement && replaceValue){
       this.setValue(this.erf.nativeElement, replaceValue);
     }
@@ -65,27 +65,34 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     }else{
       displayValue = inpElement?.value ?? '';
     }
-    let text: string[] = Array.from(displayValue);
 
-    // 提取要被改成 symbol 的文字，暫存在 tempMask 裡
-    for (let i = 0; i < this.maskOptions.cut; i++) {
-      if (text[this.maskOptions.sIndex + i] != this.maskOptions.symbol) {
-        this.tempMask[i] = <string>text[this.maskOptions.sIndex + i];
+    const text: string[] = Array.from(displayValue);
+    let temp: string = '';
+
+    if(displayValue){
+      // 提取要被改成 symbol 的文字，暫存在 tempMask 裡
+      for (let i = 0; i < this.maskOptions.cut; i++) {
+        if (text[this.maskOptions.sIndex + i] != this.maskOptions.symbol) {
+          this.tempMask[i] = <string>text[this.maskOptions.sIndex + i];
+        }
       }
-    }
-    // console.log('tempMask: ', this.tempMask);
 
-    // 提取 symbol 前後區域的明碼
-    const front = displayValue.substring(0, this.maskOptions.sIndex) || '';
-    const back = displayValue.substring(this.maskOptions.sIndex + this.maskOptions.cut) || '';
-    // 重新組合名碼文字
-    const temp = front + this.tempMask.join('') + back;
+      // console.log('tempMask: ', this.tempMask);
 
-    // 將只定區域的文字改成 symbol
-    for (let i = 0; i < this.maskOptions.cut; i++) {
-      if (text[this.maskOptions.sIndex + i]) {
-        text[this.maskOptions.sIndex + i] = this.maskOptions.symbol
+      // 提取 symbol 前後區域的明碼
+      const front = displayValue.substring(0, this.maskOptions.sIndex) || '';
+      const back = displayValue.substring(this.maskOptions.sIndex + this.maskOptions.cut) || '';
+      // 重新組合名碼文字
+      temp = front + this.tempMask.join('') + back;
+
+      // 將只定區域的文字改成 symbol
+      for (let i = 0; i < this.maskOptions.cut; i++) {
+        if (text[this.maskOptions.sIndex + i]) {
+          text[this.maskOptions.sIndex + i] = this.maskOptions.symbol
+        }
       }
+    }else{
+      this.tempMask = [];
     }
 
     return {
@@ -112,7 +119,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
       );
     }
 
-    // this.onChange 賦值給 formControl 的值，不會連動到 element 的 value
+    // this.onChange 賦值給 formControl 的值，不會連動到 HTMLInputElement 的 value
     this.onChange(replaceValue.displayValue);
   }
 
