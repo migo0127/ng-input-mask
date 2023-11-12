@@ -48,9 +48,12 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     this.onTouched = fn;
   }
 
-  @HostListener('input', ['$event'])
-  onInput(e: Event){
-    const replaceValue: IReplaceValueData = this.replaceText(e, 'input');
+  @HostListener('keyup', ['$event'])
+  onKeyup(e: Event): void{
+    // 當 maskOptions 值變動時，會同時觸發 onKeyup 及 ngOnChanges，但需要依 ngOnChanges 的值為準，所以當 maskOptions?.update 是 true 時，不觸發 onKeyup
+    if(this.maskOptions?.update) return;
+    // console.log('onKeyup');
+    const replaceValue: IReplaceValueData = this.replaceText(e, 'keyup');
     if(e && replaceValue){
       this.setValue(e, replaceValue);
     }
@@ -60,7 +63,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
     const inpElement: HTMLInputElement | null = this.getElement(e);
     let displayValue: string = '';
-    if(this.maskOptions?.rexExp && inpElement?.value && active === 'input'){
+    if(this.maskOptions?.rexExp && inpElement?.value && active === 'keyup'){
       displayValue = inpElement?.value.replace(this.maskOptions.rexExp, '');
     }else{
       displayValue = inpElement?.value ?? '';
@@ -120,7 +123,10 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     }
 
     // this.onChange 賦值給 formControl 的值，不會連動到 HTMLInputElement 的 value
-    this.onChange(replaceValue.displayValue);
+    if(replaceValue.displayValue !== this.ngControl.value){
+      // console.log('onChange', [replaceValue.displayValue, this.ngControl.value]);
+      this.onChange(replaceValue.displayValue);
+    }
   }
 
   private getElement(e: Event | ElementRef<HTMLInputElement> | null): HTMLInputElement | null {
