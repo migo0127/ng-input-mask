@@ -37,7 +37,7 @@ export class InputMaskUtilService {
         return {
           show: false,
           sIndex: 1,
-          // rexExp: /^[!@#\$%\^&\*\(\)_\+\-=\[\]{}|;:'",.<>\/?\s\d]+$/i,
+          rexExp: /[^\u4E00-\u9FA5A-Za-z\s]+$/,
           cut: 0,
         }
       default:
