@@ -17,7 +17,7 @@ $commonBorder: 1px solid black;
     justify-content: center;
   }
 
-  .input-config , .input-container {
+  .input-config-container , .input-container {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -27,21 +27,31 @@ $commonBorder: 1px solid black;
     border: $commonBorder;
     border-radius: 10px;
 
-    button {
+    .btn-container {
       margin-top: 1rem;
     }
   }
 
-  .input-config {
+  .input-config-container {
     width: 30%;
     min-width: max-content;
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button:first-child {
+        margin-right: .5rem;
+      }
+    }
   }
 
   .input-container {
     flex-grow: 1;
   }
 
-  .input-config mat-form-field,
+  .input-config-container mat-form-field,
   .input-container mat-form-field {
     width: 100%;
     height: max-content;

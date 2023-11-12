@@ -6,7 +6,7 @@
     <form
       *ngIf="configForm"
       [formGroup]="configForm"
-      class="input-config">
+      class="input-config-container">
       <h2>{{ "Account Custom Mask Config" }}</h2>
       <mat-form-field
         appearance="standard"
@@ -47,14 +47,25 @@
         </mat-hint>
       </mat-form-field>
 
-      <button
-        mat-raised-button
-        color="primary"
-        [disabled]="configForm.invalid"
-        (click)="accConfig()"
-        >
-        Configuration
-      </button>
+      <div class="btn-container">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="configForm.invalid"
+          (click)="accConfig()"
+          >
+          Config
+        </button>
+
+        <button
+          mat-raised-button
+          color="accent"
+          [disabled]="configForm.invalid"
+          (click)="defaultMaskOptions()"
+          >
+          Default
+        </button>
+      </div>
     </form>
 
     <form
@@ -64,9 +75,10 @@
       >
       <h2>{{ "User Input" }}</h2>
       <mat-form-field
+        *ngIf="accMaskOptions"
         appearance="standard"
-        [color]="accControl?.invalid ? 'warn': ''"
         >
+        <!-- [color]="accControl?.invalid ? 'warn': ''" -->
         <mat-label>{{ "Account" }}</mat-label>
         <input
           matInput
@@ -85,14 +97,18 @@
           {{ accMaskOptions.show ? 'visibility' : 'visibility_off' }}
         </mat-icon>
         <mat-hint>
-          {{ "Masking digits 3 to 5 of the Account with the symbol '*'." }}
+          {{ "Masking digits " + (accMaskOptions.sIndex + 1) + " to " + (accMaskOptions.sIndex+accMaskOptions.cut) + " of the Account with the symbol " + "\'" + accMaskOptions.symbol + "\'" + "." }}
         </mat-hint>
+        <mat-error>
+          {{ 'Require' }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field
+        *ngIf="phoneMaskOptions"
         appearance="standard"
-        [color]="phoneControl?.invalid ? 'warn': ''"
         >
+        <!-- [color]="phoneControl?.invalid ? 'warn': ''" -->
         <mat-label>{{ "Phone" }}</mat-label>
         <input
           matInput
@@ -115,8 +131,8 @@
 
       <mat-form-field
         appearance="standard"
-        [color]="emailControl?.invalid ? 'warn': ''"
         >
+        <!-- [color]="emailControl?.invalid ? 'warn': ''" -->
         <mat-label>{{ "Email" }}</mat-label>
         <input
           matInput
@@ -133,13 +149,15 @@
           >
           {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
         </mat-icon>
-        <mat-hint>{{ "Mask all characters before '@' with the symbol '*'."}}</mat-hint>
+        <mat-hint>
+          {{ "Mask all characters before '@' with the symbol '*'."}}
+        </mat-hint>
       </mat-form-field>
 
       <mat-form-field
         appearance="standard"
-        [color]="nameControl?.invalid ? 'warn': ''"
         >
+        <!-- [color]="nameControl?.invalid ? 'warn': ''" -->
         <mat-label>{{ "Name" }}</mat-label>
         <input
           matInput
@@ -161,13 +179,15 @@
         </mat-hint>
       </mat-form-field>
 
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="showFormValue()"
-        >
-        Submit
-      </button>
+      <div class="btn-container">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="showFormValue()"
+          >
+          {{ "Submit" }}
+        </button>
+      </div>
     </form>
   </div>
 

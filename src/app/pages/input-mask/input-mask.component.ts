@@ -67,8 +67,8 @@ export class InputMaskComponent implements OnInit {
 
   private buildForm(): void {
     this.configForm = this.fb.group({
-      accSIndex: ['', [ Validators.min(1), Validators.max(10)]],
-      accSymbol: ['', [ Validators.maxLength(1), Validators.pattern(/^[^\u4e00-\u9fa5\da-zA-z]*$/) ]],
+      accSIndex: [null, [ Validators.min(1), Validators.max(10)]],
+      accSymbol: [null, [ Validators.maxLength(1), Validators.pattern(/^[^\u4e00-\u9fa5\da-zA-z]*$/) ]],
     })
     this.form = this.fb.group({
       account: ['', [ Validators.required, Validators.maxLength(10) ]],
@@ -156,6 +156,13 @@ export class InputMaskComponent implements OnInit {
       default:
         return;
     }
+  }
+
+  defaultMaskOptions(): void {
+    this.accSIndxControl?.patchValue(null, {emitEvent: false});
+    this.accSymbolControl?.patchValue(null, {emitEvent: false});
+    this.setAccElementValue();
+    this.accMaskOptions = this.inputMaskUtilService.generatorMaskOptions('acc');
   }
 
   // for config
