@@ -91,6 +91,23 @@ export class InputMaskComponent implements OnInit {
     this.form.valueChanges.subscribe(() => {
       this.showValue = false;
     });
+
+    // this.emailControl?.valueChanges?.pipe(
+    //   skip(1) // 略過初始值
+    // ).subscribe((value: string) => {
+    //   if(!value) return;
+    //   // @ 前的全部隱碼
+    //   const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
+    //   this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx, update: true };
+    // });
+
+    // this.nameControl?.valueChanges?.pipe(
+    //   skip(1)
+    // ).subscribe((value: string) => {
+    //    // name: 王*、王*明、王**明、A*、A*n、A**y
+    //   const lastIdx: number = value.length > 1 ? value.length - 1 : (value.length === 1 ? 1 : 0);
+    //   this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx, update: true };
+    // });
   }
 
   /**
@@ -121,10 +138,8 @@ export class InputMaskComponent implements OnInit {
    *
    */
   nameChange(value: string): void {
-    if(!value) return;
     // name: 王*、王*明、王**明、A*、A*n、A**y
-    const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
-    this.nameMaskOptions.cut = lastIdx;
+    const lastIdx: number = value.length > 1 ? value.length - 1 : (value.length === 1 ? 1 : 0);
     this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx, update: true };
   }
 

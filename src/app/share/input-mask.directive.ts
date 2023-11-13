@@ -17,7 +17,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   tempMask: string[] = [];
 
   ngOnChanges(): void {
-    // console.log('ngOnChanges');
+    // console.log('ngOnChanges: ', this.maskOptions);
     const replaceValue: IReplaceValueData = this.replaceText(this.erf.nativeElement, 'change');
     if(this.erf.nativeElement && replaceValue){
       this.setValue(this.erf.nativeElement, replaceValue);
@@ -50,10 +50,9 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
 
   @HostListener('input', ['$event'])
   onInput(e: Event): void{
-    // console.log('onInput_0');
+    // console.log('onInput', this.maskOptions?.update);
     // 當 maskOptions 值變動時，會同時觸發 onInput 及 ngOnChanges，但需要依 ngOnChanges 的值為準，所以當 maskOptions?.update 是 true 時，不觸發 onInput
     if(this.maskOptions?.update) return;
-    // console.log('onInput');
     const replaceValue: IReplaceValueData = this.replaceText(e, 'keyup');
     if(e && replaceValue){
       this.setValue(e, replaceValue);
