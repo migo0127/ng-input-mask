@@ -53,7 +53,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     // console.log('onInput', this.maskOptions?.update);
     // 當 maskOptions 值變動時，會同時觸發 onInput 及 ngOnChanges，但需要依 ngOnChanges 的值為準，所以當 maskOptions?.update 是 true 時，不觸發 onInput
     if(this.maskOptions?.update) return;
-    const replaceValue: IReplaceValueData = this.replaceText(e, 'keyup');
+    const replaceValue: IReplaceValueData = this.replaceText(e, 'input');
     if(e && replaceValue){
       this.setValue(e, replaceValue);
     }
@@ -63,7 +63,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
     const inpElement: HTMLInputElement | null = this.getElement(e);
     let displayValue: string = '';
-    if(this.maskOptions?.rexExp && inpElement?.value && active === 'keyup'){
+    if(this.maskOptions?.rexExp && inpElement?.value && active === 'input'){
       displayValue = inpElement?.value.replace(this.maskOptions.rexExp, '');
     }else{
       displayValue = inpElement?.value ?? '';
