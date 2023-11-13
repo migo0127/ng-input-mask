@@ -3,8 +3,10 @@
 使用 Angular 框架製作客制化 Input mask value：
 
 - Account Input：
-  - 將第 3 ~ 5 位字元進行隱碼，隱碼符號 '*'。
-  - Masking digits 3 to 5 of the Account with the symbol '*'.
+  - 使用者可自行配置從第 N 位及自定義隱碼符號（ex：'*'、 '●'...ect）開始隱碼。
+  - Users can configure to start masking from the Nth position and use a custom masking symbol (e.g., '*', '●', etc.).
+  - 默認：將第 3 ~ 5 位字元進行隱碼，隱碼符號 '*'。
+  - Default: Mask characters from the 3rd to the 5th position with the masking symbol '*'..
 
 - Phone Input：
   - 將第 5 ~ 8 位字元進行隱碼，隱碼符號 '●'。
@@ -15,7 +17,7 @@
   - Mask last character for two-letter names and use '*' for middle characters in longer names.
 
 - Email Input：。
-  - @前所有字元隱碼，隱碼符號 '*'。
+  - '@' 前所有字元隱碼，隱碼符號 '*'。
   - Mask all characters before '@' with the symbol '*'.
 
 
