@@ -48,11 +48,12 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     this.onTouched = fn;
   }
 
-  @HostListener('keyup', ['$event'])
-  onKeyup(e: Event): void{
-    // 當 maskOptions 值變動時，會同時觸發 onKeyup 及 ngOnChanges，但需要依 ngOnChanges 的值為準，所以當 maskOptions?.update 是 true 時，不觸發 onKeyup
+  @HostListener('input', ['$event'])
+  onInput(e: Event): void{
+    // console.log('onInput_0');
+    // 當 maskOptions 值變動時，會同時觸發 onInput 及 ngOnChanges，但需要依 ngOnChanges 的值為準，所以當 maskOptions?.update 是 true 時，不觸發 onInput
     if(this.maskOptions?.update) return;
-    // console.log('onKeyup');
+    // console.log('onInput');
     const replaceValue: IReplaceValueData = this.replaceText(e, 'keyup');
     if(e && replaceValue){
       this.setValue(e, replaceValue);
