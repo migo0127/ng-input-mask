@@ -6,7 +6,7 @@
   - 使用者可自行配置從第 N 位及自定義隱碼符號（ex：'*'、 '●'...等）開始隱碼。
   - Users can customize the starting position (Nth position) and use a custom masking symbol (e.g., '*', '●', etc.) for masking.
   - 默認：將第 3 ~ 5 位字元進行隱碼，隱碼符號 '*'。
-  - Default: Mask characters from the 3rd to the 5th position with the masking symbol '*'..
+  - Default: Mask characters from the 3rd to the 5th position with the masking symbol '*'.
 
 - Phone Input：
   - 將第 5 ~ 8 位字元進行隱碼，隱碼符號 '●'。
