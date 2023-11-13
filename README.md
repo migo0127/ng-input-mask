@@ -3,8 +3,8 @@
 使用 Angular 框架製作客制化 Input mask value：
 
 - Account Input：
-  - 使用者可自行配置從第 N 位及自定義隱碼符號（ex：'*'、 '●'...ect）開始隱碼。
-  - Users can configure to start masking from the Nth position and use a custom masking symbol (e.g., '*', '●', etc.).
+  - 使用者可自行配置從第 N 位及自定義隱碼符號（ex：'*'、 '●'...等）開始隱碼。
+  - Users can customize the starting position (Nth position) and use a custom masking symbol (e.g., '*', '●', etc.) for masking.
   - 默認：將第 3 ~ 5 位字元進行隱碼，隱碼符號 '*'。
   - Default: Mask characters from the 3rd to the 5th position with the masking symbol '*'..
 
