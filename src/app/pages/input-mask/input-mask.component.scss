@@ -1,13 +1,13 @@
-$commonPadding: 2rem 1.5rem;
-$commonMargin: 1.5rem;
+$commonPadding: 1rem 1.5rem;
+$commonMargin: .5rem 1rem;
 $commonBorder: 1px solid black;
 
 #input-mask-section {
-  width: 55vw;
+  width: 65vw;
   height: max-content;
   text-align: center;
   padding: $commonPadding;
-  margin: 5vh auto;
+  margin: 2vh auto;
 
   .input-wrap {
     width: 100%;
@@ -26,6 +26,10 @@ $commonBorder: 1px solid black;
     margin: $commonMargin;
     border: $commonBorder;
     border-radius: 10px;
+
+    h2 {
+      margin-bottom: .5rem;
+    }
 
     .btn-container {
       margin-top: 1rem;
@@ -58,6 +62,12 @@ $commonBorder: 1px solid black;
     margin: .25rem 0;
   }
 
+  .text-container{
+    h2 {
+      margin-bottom: .25rem;
+    }
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -73,5 +83,6 @@ $commonBorder: 1px solid black;
       width: 70%;
     }
   }
+
 }
 
