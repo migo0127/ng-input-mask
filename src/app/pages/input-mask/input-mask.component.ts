@@ -139,7 +139,7 @@ export class InputMaskComponent implements OnInit {
    */
   nameChange(value: string): void {
     // name: 王*、王*明、王**明、A*、A*n、A**y
-    const lastIdx: number = value.length > 1 ? value.length - 1 : (value.length === 1 ? 1 : 0);
+    const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
     this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx, update: true };
   }
 
