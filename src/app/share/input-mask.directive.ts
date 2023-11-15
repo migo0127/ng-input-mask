@@ -63,8 +63,8 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
     const inpElement: HTMLInputElement | null = this.getElement(e);
     let displayValue: string = '';
-    if(this.maskOptions?.rexExp && inpElement?.value && active === 'input'){
-      displayValue = inpElement?.value.replace(this.maskOptions.rexExp, '');
+    if(this.maskOptions?.rexExp && inpElement?.value && (active === 'input' || this.maskOptions.update)){
+      displayValue = inpElement?.value.replace(this.maskOptions.rexExp, '') || '';
     }else{
       displayValue = inpElement?.value ?? '';
     }
