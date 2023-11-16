@@ -73,8 +73,8 @@ export class InputMaskComponent implements OnInit {
     this.form = this.fb.group({
       account: ['', [ Validators.required, Validators.maxLength(10) ]],
       phone: ['', [ Validators.required, Validators.maxLength(10) ]],
-      email: ['', [ Validators.required, Validators.maxLength(30), Validators.email ]],
-      name: ['', [ Validators.required, Validators.maxLength(30) ]],
+      // email: ['', [ Validators.required, Validators.maxLength(30), Validators.email ]],
+      // name: ['', [ Validators.required, Validators.maxLength(30) ]],
     });
   }
 
@@ -82,8 +82,8 @@ export class InputMaskComponent implements OnInit {
   private generatorMaskOptions(): void {
     this.accMaskOptions = this.inputMaskUtilService.generatorMaskOptions('acc');
     this.phoneMaskOptions = this.inputMaskUtilService.generatorMaskOptions('phone');
-    this.emailMaskOptions = this.inputMaskUtilService.generatorMaskOptions('email');
-    this.nameMaskOptions = this.inputMaskUtilService.generatorMaskOptions('name');
+    // this.emailMaskOptions = this.inputMaskUtilService.generatorMaskOptions('email');
+    // this.nameMaskOptions = this.inputMaskUtilService.generatorMaskOptions('name');
   }
 
   // for config
@@ -120,12 +120,12 @@ export class InputMaskComponent implements OnInit {
    * 的值，會導致重新觸發 valueChanges，造成多次呼叫問題。
    *
    */
-  emailChange(value: string): void {
-    if(!value) return;
-    // @ 前的全部隱碼
-    const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
-    this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx, update: true };
-  }
+  // emailChange(value: string): void {
+  //   if(!value) return;
+  //   // @ 前的全部隱碼
+  //   const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
+  //   this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx, update: true };
+  // }
 
   /**
    * nameChange ：用來隨時偵測姓名的長度，在來修改 sIndex 的值
@@ -137,11 +137,11 @@ export class InputMaskComponent implements OnInit {
    * 的值，會導致重新觸發 valueChanges，造成多次呼叫問題。
    *
    */
-  nameChange(value: string): void {
-    // name: 王*、王*明、王**明、A*、A*n、A**y
-    const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
-    this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx, update: true };
-  }
+  // nameChange(value: string): void {
+  //   // name: 王*、王*明、王**明、A*、A*n、A**y
+  //   const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
+  //   this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx, update: true };
+  // }
 
   // 配置自定義帳號 sIndex 及 symbol 設定，for config
   accConfig(): void {
@@ -162,12 +162,12 @@ export class InputMaskComponent implements OnInit {
       case 'phone':
         this.phoneMaskOptions = { ...maskOption };
         break;
-      case 'email':
-        this.emailMaskOptions = { ...maskOption };
-        break;
-      case 'name':
-        this.nameMaskOptions = { ...maskOption };
-        break;
+      // case 'email':
+      //   this.emailMaskOptions = { ...maskOption };
+      //   break;
+      // case 'name':
+      //   this.nameMaskOptions = { ...maskOption };
+      //   break;
       default:
         return;
     }
