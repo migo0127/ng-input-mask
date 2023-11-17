@@ -25,6 +25,20 @@ export class InputMaskUtilService {
           cut: 4,
           symbol: '●'
         }
+      case 'email':
+        return {
+          show: false,
+          sIndex: 0,
+          cut: 4,
+          dynamic: true,
+        }
+      case 'name':
+        return {
+          show: false,
+          sIndex: 1,
+          cut: 0,
+          dynamic: true,
+        }
       default:
         return {
           show: false,
