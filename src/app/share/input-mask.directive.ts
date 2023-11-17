@@ -77,10 +77,10 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     const text: string[] = Array.from(displayValue);
     let temp: string = '';
 
-    // console.log(isMiddleSelection, selectionEnd, displayValue.length, isDelete, isInert)
+    console.log(isMaskAreaEntry, selectionEnd, displayValue.length, isDelete, isInert)
 
     if(displayValue){
-      if(isMaskAreaEntry){
+      if(isMaskAreaEntry && active === 'input'){
         if(isDelete){
           this.tempMask.splice(selectionEnd - this.maskOptions.cut, 1);
         }else if(isInert){
