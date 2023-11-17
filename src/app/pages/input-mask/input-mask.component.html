@@ -119,6 +119,8 @@
           formControlName="phone"
           placeholder="Enter Phone"
           [inputMaskD]="phoneMaskOptions"
+          (select)="phoneInp.select()"
+          #phoneInp
           >
         <mat-icon
           matSuffix
