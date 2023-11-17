@@ -83,10 +83,12 @@
         <input
           matInput
           type="text"
+          class="no-select"
           [maxlength]="10"
           formControlName="account"
           placeholder="Enter Account"
           [inputMaskD]="accMaskOptions"
+          (select)="accInp.select()"
           required
           #accInp
           >
