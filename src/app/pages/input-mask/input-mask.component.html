@@ -3,7 +3,7 @@
   <h1>{{ "Custom Input Mask Value" }}</h1>
 
   <div class="input-wrap">
-    <form
+    <!-- <form
       *ngIf="configForm"
       [formGroup]="configForm"
       class="input-config-container">
@@ -66,7 +66,7 @@
           Default
         </button>
       </div>
-    </form>
+    </form> -->
 
     <form
       *ngIf="form"
@@ -78,7 +78,6 @@
         *ngIf="accMaskOptions"
         appearance="standard"
         >
-        <!-- [color]="accControl?.invalid ? 'warn': ''" -->
         <mat-label>{{ "Account" }}</mat-label>
         <input
           matInput
@@ -110,7 +109,6 @@
         *ngIf="phoneMaskOptions"
         appearance="standard"
         >
-        <!-- [color]="phoneControl?.invalid ? 'warn': ''" -->
         <mat-label>{{ "Phone" }}</mat-label>
         <input
           matInput
@@ -133,56 +131,6 @@
         </mat-hint>
       </mat-form-field>
 
-      <!-- <mat-form-field
-        appearance="standard"
-        >
-        <mat-label>{{ "Email" }}</mat-label>
-        <input
-          matInput
-          type="text"
-          [maxlength]="30"
-          formControlName="email"
-          placeholder="Enter Email"
-          [inputMaskD]="emailMaskOptions"
-          (input)="emailChange(emailInp.value)"
-          #emailInp
-          >
-        <mat-icon
-          matSuffix
-          (click)="changeVisibility(emailMaskOptions, 'email')"
-          >
-          {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
-        </mat-icon>
-        <mat-hint>
-          {{ "Mask all characters before '@' with the symbol '*'."}}
-        </mat-hint>
-      </mat-form-field>
-
-      <mat-form-field
-        appearance="standard"
-        >
-        <mat-label>{{ "Name" }}</mat-label>
-        <input
-          matInput
-          type="text"
-          [maxlength]="30"
-          formControlName="name"
-          placeholder="Enter Full Name"
-          [inputMaskD]="nameMaskOptions"
-          (input)="nameChange(nameInp.value)"
-          #nameInp
-          >
-        <mat-icon
-          matSuffix
-          (click)="changeVisibility(nameMaskOptions, 'name')"
-          >
-          {{ nameMaskOptions.show ? 'visibility' : 'visibility_off' }}
-        </mat-icon>
-        <mat-hint>
-          {{ "Mask last character for two-letter names and use '*' for middle characters in longer names." }}
-        </mat-hint>
-      </mat-form-field> -->
-
       <div class="btn-container">
         <button
           mat-raised-button
@@ -195,13 +143,13 @@
     </form>
   </div>
 
-  <div
+  <!-- <div
     class="text-container"
     *ngIf="showValue"
     >
     <h2>{{ "Form Value" }}</h2>
     <p>{{ form.value | json }}</p>
-  </div>
+  </div> -->
 
 </section>
 
