@@ -3,7 +3,8 @@ $commonMargin: .5rem 1rem;
 $commonBorder: 1px solid black;
 
 #input-mask-section {
-  width: 65vw;
+  width: 25vw;
+  min-width: 360px;
   height: max-content;
   text-align: center;
   padding: $commonPadding;
