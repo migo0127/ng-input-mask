@@ -3,75 +3,11 @@
   <h1>{{ "Custom Input Mask Value" }}</h1>
 
   <div class="input-wrap">
-    <!-- <form
-      *ngIf="configForm"
-      [formGroup]="configForm"
-      class="input-config-container">
-      <h2>{{ "Account Custom Mask Config" }}</h2>
-      <mat-form-field
-        appearance="standard"
-        floatLabel="always"
-        >
-      <mat-label>
-        {{ "Enter start nth" }}
-      </mat-label>
-      <input
-        matInput
-        type="number"
-        [min]="1"
-        [max]="10"
-        formControlName="accSIndex"
-        placeholder="Mask from position N onward."
-        >
-        <mat-hint>
-          {{ "Nth limited to 1 ~ 9." }}
-        </mat-hint>
-      </mat-form-field>
-
-      <mat-form-field
-        appearance="standard"
-        floatLabel="always"
-        >
-      <mat-label>
-        {{ "Enter a symbol" }}
-      </mat-label>
-      <input
-        matInput
-        type="text"
-        [maxlength]="1"
-        formControlName="accSymbol"
-        placeholder="Masking symbol, such as '*'、 '●'."
-        >
-        <mat-hint>
-          {{ "Symbols only, such as '*'、 '●'." }}
-        </mat-hint>
-      </mat-form-field>
-
-      <div class="btn-container">
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="configForm.invalid"
-          (click)="accConfig()"
-          >
-          Config
-        </button>
-
-        <button
-          mat-raised-button
-          color="accent"
-          [disabled]="configForm.invalid"
-          (click)="defaultMaskOptions()"
-          >
-          Default
-        </button>
-      </div>
-    </form> -->
-
     <form
       *ngIf="form"
       [formGroup]="form"
       class="input-container"
+
       >
       <h2>{{ "User Input" }}</h2>
       <mat-form-field
@@ -88,6 +24,7 @@
           placeholder="Enter Account"
           [inputMaskD]="accMaskOptions"
           (select)="accInp.select()"
+          (blur)="accControl?.markAsTouched()"
           required
           #accInp
           >
@@ -100,8 +37,13 @@
         <mat-hint>
           {{ "Masking digits " + (accMaskOptions.sIndex + 1) + " to " + (accMaskOptions.sIndex+accMaskOptions.cut) + " of the Account with the symbol " + "\'" + accMaskOptions.symbol + "\'" + "." }}
         </mat-hint>
-        <mat-error>
-          {{ 'Require' }}
+        <mat-error
+          *ngIf="accControl?.hasError('required')">
+          {{ "Required" }}
+          </mat-error>
+        <mat-error
+          *ngIf="accControl?.hasError('pattern') || accControl?.hasError('maxlength')">
+          {{ "Limit to 10 or fewer alphanumeric characters." }}
         </mat-error>
       </mat-form-field>
 
@@ -118,6 +60,7 @@
           placeholder="Enter Phone"
           [inputMaskD]="phoneMaskOptions"
           (select)="phoneInp.select()"
+          (blur)="phoneControl?.markAsTouched()"
           #phoneInp
           >
         <mat-icon
@@ -129,6 +72,14 @@
         <mat-hint>
           {{ "Masking digits 5 to 8 of the Phone with the symbol '●'." }}
         </mat-hint>
+        <mat-error
+          *ngIf="phoneControl?.hasError('required')">
+          {{ "Required" }}
+        </mat-error>
+        <mat-error
+          *ngIf="phoneControl?.hasError('pattern') || phoneControl?.hasError('maxlength')">
+          {{ "Limit input to numbers within ten digits." }}
+      </mat-error>
       </mat-form-field>
 
       <div class="btn-container">
@@ -143,13 +94,13 @@
     </form>
   </div>
 
-  <!-- <div
+  <div
     class="text-container"
     *ngIf="showValue"
     >
     <h2>{{ "Form Value" }}</h2>
     <p>{{ form.value | json }}</p>
-  </div> -->
+  </div>
 
 </section>
 
