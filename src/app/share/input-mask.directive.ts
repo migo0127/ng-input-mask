@@ -62,6 +62,10 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   private replaceText(e: Event | ElementRef<HTMLInputElement> | null, active: string): IReplaceValueData {
     this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
     const inpElement: HTMLInputElement | null = this.getElement(e);
+    const selectionEnd = inpElement?.selectionEnd || 0;
+    const isDelete: boolean = (e as InputEvent)?.inputType?.includes('Backward');
+    const isInert: boolean = !isDelete && (this.maskOptions.sIndex >= selectionEnd - this.maskOptions.cut &&
+      selectionEnd - this.maskOptions.cut < this.maskOptions.sIndex + this.maskOptions.cut);
     let displayValue: string = '';
     if(this.maskOptions?.rexExp && inpElement?.value && (active === 'input' || this.maskOptions.update)){
       displayValue = inpElement?.value.replace(this.maskOptions.rexExp, '') || '';
@@ -69,10 +73,27 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
       displayValue = inpElement?.value ?? '';
     }
 
+    const isMaskAreaEntry: boolean = selectionEnd !== 0 && selectionEnd !== displayValue.length;
     const text: string[] = Array.from(displayValue);
     let temp: string = '';
 
+    // console.log(isMiddleSelection, selectionEnd, displayValue.length, isDelete, isInert)
+
     if(displayValue){
+      if(isMaskAreaEntry){
+        if(isDelete){
+          this.tempMask.splice(selectionEnd - this.maskOptions.cut, 1);
+        }else if(isInert){
+          this.tempMask.splice((this.maskOptions.sIndex + this.maskOptions.cut) - selectionEnd  , 0, (e as InputEvent)?.data || '');
+          for(let i = 0; i < displayValue.length; i++){
+            if(i >= this.maskOptions.sIndex && i <= this.maskOptions.sIndex + this.maskOptions.cut){
+                text.splice(i, 1, this.tempMask[i - this.maskOptions.sIndex]);
+            }
+          }
+          this.tempMask.splice(this.tempMask.length - 1, 1);
+        }
+      }
+
       // 提取要被改成 symbol 的文字，暫存在 tempMask 裡
       for (let i = 0; i < this.maskOptions.cut; i++) {
         if (text[this.maskOptions.sIndex + i] != this.maskOptions.symbol) {
@@ -80,6 +101,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
         }
       }
 
+      this.tempMask = this.tempMask.filter((v: string) => v);
       // console.log('tempMask: ', this.tempMask);
 
       // 提取 symbol 前後區域的明碼
