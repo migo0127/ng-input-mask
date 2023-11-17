@@ -24,7 +24,7 @@ export class InputMaskUtilService {
           show: false,
           sIndex: 4,
           cut: 4,
-          rexExp: /[\D*]+$/,
+          rexExp: /[^\d●]+$/,
           symbol: '●'
         }
       case 'email':
