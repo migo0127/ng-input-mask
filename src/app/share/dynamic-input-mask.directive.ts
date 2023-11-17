@@ -122,7 +122,11 @@ export class DynamicInputMaskDirective implements ControlValueAccessor, OnChange
   private setValue(e: ElementRef<HTMLInputElement> | Event, replaceValue: IReplaceValueData): void {
     const inpElement: HTMLInputElement | null = this.getHTMLInputElement(e);
 
-    // 將值塞入 element 的 value 屬性裡，這裡只會顯示，不會連動到 formControl 的值
+    /**
+     *  將值塞入 element 的 value 屬性裡，這裡只會顯示，不會連動到 formControl 的值，
+     *  另 HTML 上每一個 HTML的 input 事件都要加上 $event.preventDefault，來阻止 value
+     *  變動時，又觸發了 HostListener 事件 (chrome、edge 會發生)。
+     */
     if(this.maskOptions.show){
       this.renderer2.setProperty(
         inpElement,
