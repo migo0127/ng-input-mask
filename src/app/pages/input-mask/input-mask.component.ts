@@ -67,11 +67,19 @@ export class InputMaskComponent implements OnInit {
     });
   }
 
+  /**
+   * 當使用 dynamicInputMaskD 處理明隱碼時，因需要另外傳入 Event 事件，所以不使用
+   * valueChanges，改使用 (input) 事件處理。
+   */
   emailChange(value: string, event: Event): void {
     const atIdx: number = value.indexOf('@') !== -1 ? value.indexOf('@') : value.length;
     this.emailMaskOptions = {...this.emailMaskOptions, cut: atIdx, event: event };
   }
 
+  /**
+   * 當使用 dynamicInputMaskD 處理明隱碼時，因需要另外傳入 Event 事件，所以不使用
+   * valueChanges，改使用 (input) 事件處理。
+   */
   nameChange(value: string, event: Event): void {
     const lastIdx: number = value.length > 2 ? value.length - 2 : (value.length === 2 ? 1 : 0);
     this.nameMaskOptions = {...this.nameMaskOptions, cut: lastIdx, event: event };
