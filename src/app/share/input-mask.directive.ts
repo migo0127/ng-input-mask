@@ -80,17 +80,18 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     // console.log(isMaskAreaEntry, selectionEnd, displayValue.length, isDelete, isInert);
 
     if(displayValue){
+      // 當輸入的字元位於隱碼區域內
       if(isMaskAreaEntry && active === 'input'){
         if(isDelete){
+          // 將隱碼刪除
           this.tempMask.splice(selectionEnd - this.maskOptions.cut, 1);
         }else if(isInert){
-          this.tempMask.splice((this.maskOptions.sIndex + this.maskOptions.cut) - selectionEnd  , 0, (e as InputEvent)?.data || '');
-          for(let i = 0; i < displayValue.length; i++){
-            if(i >= this.maskOptions.sIndex && i <= this.maskOptions.sIndex + this.maskOptions.cut){
-                text.splice(i, 1, this.tempMask[i - this.maskOptions.sIndex]);
-            }
-          }
-          this.tempMask.splice(this.tempMask.length - 1, 1);
+          // 在隱碼區域新增字元
+          // 須先將新增字元加入對應的暫存的 tempMask 裡
+          const idx: number = selectionEnd - this.maskOptions.sIndex - 1;
+          this.tempMask.splice(idx, 0, (e as InputEvent)?.data || '');
+          // 在將所有暫存的字元（tempMask）替換回 text 裡，使 text 變成全明碼的狀態
+          this.updateTextWithMask(displayValue, text);
         }
       }
 
@@ -124,6 +125,17 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
       displayValue: temp,
       maskValue: text.join('')
     }
+  }
+
+  // 在將所有暫存的字元（tempMask）替換回 text 裡，使 text 變成全明碼的狀態
+  private updateTextWithMask(displayValue: string, text: string[]): void {
+    for(let i = 0; i < displayValue.length; i++){
+      if(i >= this.maskOptions.sIndex && i <= this.maskOptions.sIndex + this.maskOptions.cut){
+          text.splice(i, 1, this.tempMask[i - this.maskOptions.sIndex]);
+      }
+    }
+    // 在將多暫存的字元移除，保持相對應的 cut 所儲存的 N 位
+    this.tempMask.splice(this.tempMask.length - 1, 1);
   }
 
   private setValue(e: ElementRef<HTMLInputElement> | Event, replaceValue: IReplaceValueData): void {
