@@ -1,18 +1,13 @@
 import { Directive, ElementRef, HostListener, Input, OnChanges, Renderer2, Self } from "@angular/core";
-import { IInputMaskOptions } from "../model/input-mask-options.model";
+import { IDynamicInputMaskOptions, IReplaceValueData } from "src/app/model";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
-
-interface IReplaceValueData {
-  displayValue: string;
-  maskValue: string;
-}
 
 @Directive({
   selector: '[dynamicInputMaskD]',
 })
 export class DynamicInputMaskDirective implements ControlValueAccessor, OnChanges {
 
-  @Input('dynamicInputMaskD') maskOptions: IInputMaskOptions;
+  @Input('dynamicInputMaskD') maskOptions: IDynamicInputMaskOptions;
 
   temp: string[] = [];
 
@@ -140,7 +135,6 @@ export class DynamicInputMaskDirective implements ControlValueAccessor, OnChange
         replaceValue.maskValue
       );
     }
-
 
     // 當點擊顯隱碼時，不需要觸發 formControl 賦值
     if(replaceValue.displayValue !== this.ngControl.value){

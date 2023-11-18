@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AbstractControl, ValidationErrors } from "@angular/forms";
-import { IInputMaskOptions } from "src/app/model/input-mask-options.model";
+import { IDynamicInputMaskOptions, IInputMaskOptions } from "src/app/model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ export class InputMaskUtilService {
   constructor() { }
 
   // 建立初始化 MaskOptions
-  generatorMaskOptions(type: string): IInputMaskOptions {
+  generatorMaskOptions(type: string): IInputMaskOptions | IDynamicInputMaskOptions {
     switch(type) {
       case 'acc':
         return {

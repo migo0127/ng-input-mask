@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IInputMaskOptions } from 'src/app/model/input-mask-options.model';
+import { IDynamicInputMaskOptions, IInputMaskOptions } from "src/app/model";
 import { InputMaskUtilService } from './input-mask-util.service';
 
 @Component({
@@ -14,8 +14,8 @@ export class InputMaskComponent implements OnInit {
   showValue: boolean;
   accMaskOptions: IInputMaskOptions;
   phoneMaskOptions: IInputMaskOptions;
-  emailMaskOptions: IInputMaskOptions;
-  nameMaskOptions: IInputMaskOptions;
+  emailMaskOptions: IDynamicInputMaskOptions;
+  nameMaskOptions: IDynamicInputMaskOptions;
 
   get accControl(): AbstractControl | null {
     return this.form.get('account');
@@ -86,7 +86,7 @@ export class InputMaskComponent implements OnInit {
   }
 
   // 單純切換明隱碼狀態
-  changeVisibility(maskOption: IInputMaskOptions, type: string): void {
+  changeVisibility(maskOption: IInputMaskOptions | IDynamicInputMaskOptions, type: string): void {
     maskOption.show = !maskOption.show;
     switch(type){
       case 'acc':

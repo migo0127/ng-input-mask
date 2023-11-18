@@ -1,11 +1,6 @@
 import { Directive, ElementRef, HostListener, Input, OnChanges, Renderer2, Self } from "@angular/core";
-import { IInputMaskOptions } from "../model/input-mask-options.model";
+import { IInputMaskOptions, IReplaceValueData } from "src/app/model";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
-
-interface IReplaceValueData {
-  displayValue: string;
-  maskValue: string;
-}
 
 @Directive({
   selector: '[inputMaskD]',
