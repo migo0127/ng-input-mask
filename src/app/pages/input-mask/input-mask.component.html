@@ -39,11 +39,13 @@
           {{ "Masking digits " + (accMaskOptions.sIndex + 1) + " to " + (accMaskOptions.sIndex+accMaskOptions.cut) + " of the Account with the symbol " + "\'" + accMaskOptions.symbol + "\'" + "." }}
         </mat-hint>
         <mat-error
-          *ngIf="accControl?.hasError('required')">
+          *ngIf="accControl?.hasError('required')"
+          >
           {{ "Required" }}
           </mat-error>
         <mat-error
-          *ngIf="accControl?.hasError('pattern') || accControl?.hasError('maxlength')">
+          *ngIf="accControl?.hasError('pattern') || accControl?.hasError('maxlength')"
+          >
           {{ "Limit input to alphanumeric characters." }}
         </mat-error>
       </mat-form-field>
@@ -75,11 +77,13 @@
           {{ "Masking digits 5 to 8 of the Phone with the symbol '●'." }}
         </mat-hint>
         <mat-error
-          *ngIf="phoneControl?.hasError('required')">
+          *ngIf="phoneControl?.hasError('required')"
+          >
           {{ "Required" }}
         </mat-error>
         <mat-error
-          *ngIf="phoneControl?.hasError('pattern') || phoneControl?.hasError('maxlength')">
+          *ngIf="phoneControl?.hasError('pattern') || phoneControl?.hasError('maxlength')"
+          >
           {{ "Limit input to numbers within ten digits." }}
       </mat-error>
       </mat-form-field>
@@ -112,11 +116,13 @@
           {{ "Masking digits " + (emailMaskOptions.sIndex + 1) + " to " + (emailMaskOptions.sIndex+emailMaskOptions.cut) + " of the Account with the symbol " + "\'" + emailMaskOptions.symbol + "\'" + "." }}
         </mat-hint>
         <mat-error
-          *ngIf="emailControl?.hasError('required')">
+          *ngIf="emailControl?.hasError('required')"
+          >
           {{ "Required" }}
           </mat-error>
         <mat-error
-          *ngIf="emailControl?.hasError('pattern') || emailControl?.hasError('maxlength')">
+          *ngIf="emailControl?.hasError('pattern') || emailControl?.hasError('maxlength')"
+          >
           {{ "Invalid email format." }}
         </mat-error>
       </mat-form-field>
@@ -149,11 +155,13 @@
           {{ "Masking digits " + (nameMaskOptions.sIndex + 1) + " to " + (nameMaskOptions.sIndex+nameMaskOptions.cut) + " of the Account with the symbol " + "\'" + nameMaskOptions.symbol + "\'" + "." }}
         </mat-hint>
         <mat-error
-          *ngIf="nameControl?.hasError('required')">
+          *ngIf="nameControl?.hasError('required')"
+          >
           {{ "Required" }}
           </mat-error>
         <mat-error
-          *ngIf="nameControl?.hasError('pattern') || nameControl?.hasError('maxlength')">
+          *ngIf="nameControl?.hasError('pattern') || nameControl?.hasError('maxlength')"
+          >
           {{ "Limit to Chinese, English, and spaces." }}
         </mat-error>
       </mat-form-field>
