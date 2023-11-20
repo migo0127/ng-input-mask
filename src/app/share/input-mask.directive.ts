@@ -95,11 +95,8 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
       maskValue = [...this.temp];
 
       // 將隱碼變數指定區域的文字改成 symbol
-      for (let i = 0; i < cut; i++) {
-        if (maskValue[sIndex + i]) {
-          maskValue[sIndex + i] = symbol
-        }
-      }
+      maskValue.fill(symbol, sIndex, sIndex + cut);
+
     }else{
       this.temp = [];
     }
