@@ -56,13 +56,14 @@ export class DynamicInputMaskDirective implements ControlValueAccessor, OnChange
   // 保存暫存的明碼及替換成隱碼
   private replaceText(e: Event | ElementRef<HTMLInputElement> | null): IReplaceValueData {
     // 默認 symbol 為 '*'
-    this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
-    const { symbol } = this.maskOptions;
-    let { sIndex, cut } = this.maskOptions;
+    const { symbol = '*', rexExp, sIndex, cut } = this.maskOptions;
     const inpElement: HTMLInputElement | null = this.getHTMLInputElement(e);
     let inputValue: string = inpElement?.value ?? '';
+    if(rexExp){
+      inputValue.replace(rexExp, '');
+    }
     // 取得滑鼠當前所在位置
-    const selectionEnd = inpElement?.selectionEnd || 0;
+    const selectionEnd: number = inpElement?.selectionEnd || 0;
 
     // 取得 delete 及 insert 事件，並保存該值 data
     const inputEvent: InputEvent | null = e as InputEvent || null;
