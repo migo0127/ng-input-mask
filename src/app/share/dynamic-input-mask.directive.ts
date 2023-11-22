@@ -2,6 +2,12 @@ import { Directive, ElementRef, HostListener, Input, OnChanges, Renderer2, Self 
 import { IDynamicInputMaskOptions, IReplaceValueData } from "src/app/model";
 import { ControlValueAccessor, NgControl } from "@angular/forms";
 
+/**
+ * inputMaskD 與 dynamicInputMaskD 主要差別僅在第 22 行及 54 行，
+ * 拆成兩支 Directive 只是單純先分開動態與固定 mask 的邏輯，固定
+ * 也可直接使用 dynamicInputMaskD。
+ */
+
 @Directive({
   selector: '[dynamicInputMaskD]',
 })
@@ -39,6 +45,7 @@ export class DynamicInputMaskDirective implements ControlValueAccessor, OnChange
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -56,11 +63,9 @@ export class DynamicInputMaskDirective implements ControlValueAccessor, OnChange
   // 保存暫存的明碼及替換成隱碼
   private replaceText(e: Event | ElementRef<HTMLInputElement> | null): IReplaceValueData {
     // 默認 symbol 為 '*'
-    this.maskOptions.symbol = this.maskOptions?.symbol ? this.maskOptions.symbol : '*';
-    const { symbol } = this.maskOptions;
-    let { sIndex, cut } = this.maskOptions;
+    const { sIndex, cut, symbol = '*' } = this.maskOptions;
     const inpElement: HTMLInputElement | null = this.getHTMLInputElement(e);
-    let inputValue: string = inpElement?.value ?? '';
+    const inputValue: string = inpElement?.value ?? '';
     // 取得滑鼠當前所在位置
     const selectionEnd = inpElement?.selectionEnd || 0;
 
@@ -135,6 +140,8 @@ export class DynamicInputMaskDirective implements ControlValueAccessor, OnChange
         replaceValue.maskValue
       );
     }
+
+    // console.log('onChange', [replaceValue.displayValue, this.ngControl.value]);
 
     // 當點擊顯隱碼時，不需要觸發 formControl 賦值
     if(replaceValue.displayValue !== this.ngControl.value){
