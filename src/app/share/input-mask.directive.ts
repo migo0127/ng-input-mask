@@ -62,11 +62,14 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   // 保存暫存的明碼及替換成隱碼
   private replaceText(e: Event | ElementRef<HTMLInputElement> | null): IReplaceValueData {
     // 默認 symbol 為 '*'
-    const { sIndex, cut, symbol = '*' } = this.maskOptions;
+    const { symbol = '*', rexExp, sIndex, cut } = this.maskOptions;
     const inpElement: HTMLInputElement | null = this.getHTMLInputElement(e);
-    const inputValue: string = inpElement?.value ?? '';
+    let inputValue: string = inpElement?.value ?? '';
+    if(rexExp){
+      inputValue.replace(rexExp, '');
+    }
     // 取得滑鼠當前所在位置
-    const selectionEnd = inpElement?.selectionEnd || 0;
+    const selectionEnd: number = inpElement?.selectionEnd || 0;
 
     // 取得 delete 及 insert 事件，並保存該值 data
     const inputEvent: InputEvent | null = e as InputEvent || null;
@@ -100,17 +103,14 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
       maskValue = [...this.temp];
 
       // 將隱碼變數指定區域的文字改成 symbol
-      for (let i = 0; i < cut; i++) {
-        if (maskValue[sIndex + i]) {
-          maskValue[sIndex + i] = symbol
-        }
-      }
+      maskValue.fill(symbol, sIndex, sIndex + cut);
+
     }else{
       this.temp = [];
     }
 
-    // console.log('value: ', { temp: {...this.temp}, text: [...text], maskValue: [...maskValue] });
-    
+    // console.log('value: ', { temp: [...this.temp], text: [...text], maskValue: [...maskValue] });
+
     return {
       displayValue: this.temp.join(''),
       maskValue: maskValue.join('')
