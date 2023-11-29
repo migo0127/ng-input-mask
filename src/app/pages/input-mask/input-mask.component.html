@@ -35,7 +35,7 @@
           {{ accMaskOptions.show ? 'visibility' : 'visibility_off' }}
         </mat-icon>
         <mat-hint>
-          {{ "Masking digits " + (accMaskOptions.sIndex + 1) + " to " + (accMaskOptions.sIndex+accMaskOptions.cut) + " of the Account with the symbol " + "\'" + accMaskOptions.symbol + "\'" + "." }}
+          {{ "Masking digits " + (accMaskOptions.sIndex + 1) + " to " + (accMaskOptions.sIndex+accMaskOptions.cut) + " of the Account with the symbol " + "\'" + (accMaskOptions.symbol ? accMaskOptions.symbol : '*')  + "\'" + "." }}
         </mat-hint>
         <mat-error
           *ngIf="accControl?.hasError('required')"
@@ -111,7 +111,7 @@
           {{ emailMaskOptions.show ? 'visibility' : 'visibility_off' }}
         </mat-icon>
         <mat-hint>
-          {{ "Masking digits " + (emailMaskOptions.sIndex + 1) + " to " + (emailMaskOptions.sIndex+emailMaskOptions.cut) + " of the Account with the symbol " + "\'" + emailMaskOptions.symbol + "\'" + "." }}
+          {{ "Masking digits " + (emailMaskOptions.sIndex + 1) + " to " + (emailMaskOptions.sIndex+emailMaskOptions.cut) + " of the Account with the symbol " + "\'" + (emailMaskOptions.symbol ? emailMaskOptions.symbol : '*') + "\'" + "." }}
         </mat-hint>
         <mat-error
           *ngIf="emailControl?.hasError('required')"
@@ -150,7 +150,7 @@
           {{ nameMaskOptions.show ? 'visibility' : 'visibility_off' }}
         </mat-icon>
         <mat-hint>
-          {{ "Masking digits " + (nameMaskOptions.sIndex + 1) + " to " + (nameMaskOptions.sIndex+nameMaskOptions.cut) + " of the Account with the symbol " + "\'" + nameMaskOptions.symbol + "\'" + "." }}
+          {{ "Masking digits " + (nameMaskOptions.sIndex + 1) + " to " + (nameMaskOptions.sIndex+nameMaskOptions.cut) + " of the Account with the symbol " + "\'" + (nameMaskOptions.symbol ? nameMaskOptions.symbol : '*') + "\'" + "." }}
         </mat-hint>
         <mat-error
           *ngIf="nameControl?.hasError('required')"
