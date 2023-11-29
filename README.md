@@ -23,5 +23,5 @@
 
 專案運行方式：ng serve 或 npm start
 
-網站連結：https://migo0127.github.io/ng-input-mask/ng-input-mask
+網站連結：migo0127.github.io/ng-input-mask/
 
